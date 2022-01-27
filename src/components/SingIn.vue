@@ -1,6 +1,6 @@
 <template>
   <div>
-    <Form @submit="handleLogin" :validation-schema="schema">
+    <Form @submit="handleLogin" :validation-schema="schema" class="login">
       <div>
         <label for="email">Email</label>
         <Field name="email" type="email" />
@@ -34,46 +34,46 @@ export default {
     ErrorMessage,
   },
   data() {
-    const schema = yup.object.shape({
+    const schema = yup.object().shape({
       email: yup.string().required("Email is required!"),
       password: yup.string().required("Password is required!"),
     });
 
     return {
-        loading: false,
-        message: "",
-        schema,
+      loading: false,
+      message: "",
+      schema,
     };
   },
   computed: {
-      loggedIn() {
-          return this.$store.state.auth.status.loggedIn;
-      },
+    loggedIn() {
+      return this.$store.state.auth.status.loggedIn;
+    },
   },
   created() {
-      if (this.loggedIn){
-          this.$router.push("/");
-      }
+    if (this.loggedIn) {
+      this.$router.push("/");
+    }
   },
   methods: {
-      handleLogin(user) {
-          this.loading = true;
+    handleLogin(user) {
+      this.loading = true;
 
-          this.$store.dispatch("auth/login", user).then(
-              () => {
-                  this.$router.push("/");
-              },
-              (error) => {
-                  this.loading = false;
-                  this.message =
-                  (error.response &&
-                  error.response.data &&
-                  error.response.data.message) ||
-                  error.message ||
-                  error.toString();
-              }
-          );
-      },
+      this.$store.dispatch("auth/login", user).then(
+        () => {
+          this.$router.push("/");
+        },
+        (error) => {
+          this.loading = false;
+          this.message =
+            (error.response &&
+              error.response.data &&
+              error.response.data.message) ||
+            error.message ||
+            error.toString();
+        }
+      );
+    },
   },
 };
 </script>
