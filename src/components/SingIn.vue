@@ -1,22 +1,28 @@
 <template>
-  <div>
+  <div class="col-md-4 offset-md-4">
     <Form @submit="handleLogin" :validation-schema="schema" class="login">
-      <div>
-        <label for="email">Email</label>
-        <Field name="email" type="email" />
+      <div class="form-group row">
+        <label for="email" class="col-md-2 col-form-label">Email</label>
+        <div class="col-sm-6">
+        <Field name="email" type="email" placeholder="Email"/>
         <ErrorMessage name="email" class="error-feedback" />
+        </div>
       </div>
-      <div>
-        <label for="password">Password</label>
-        <Field name="password" type="password" />
+      <div class="form-group row">
+        <label for="password" class="col-md-2 col-form-label">Password</label>
+        <div class="col-sm-6">
+        <Field name="password" type="password" placeholder="Password"/>
         <ErrorMessage name="password" class="error-feedback" />
+        </div>
       </div>
-      <button :disabled="loading">
+      <div class="form-group row">
+      <button :disabled="loading" class="btn btn-primary btn-block">
         <span v-show="loading" />
         <span>Login</span>
       </button>
       <div v-if="message" role="alert">
         {{ message }}
+      </div>
       </div>
     </Form>
   </div>
@@ -27,7 +33,7 @@ import { Form, Field, ErrorMessage } from "vee-validate";
 import * as yup from "yup";
 
 export default {
-  name: "Login",
+  name: "SignIn",
   components: {
     Form,
     Field,

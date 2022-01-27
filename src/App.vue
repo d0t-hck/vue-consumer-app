@@ -1,12 +1,58 @@
 <template>
   <div id="nav">
-    <router-link to="/">Home</router-link> |
-    <router-link to="/sign-in">Sign-In</router-link> |
-    <router-link to="/login">Login</router-link> |
-    <router-link to="/sign-up">Sign-Up</router-link>
+    <nav class="navbar navbar-expand navbar-light bg-light">
+      <div class="navbar-nav mr-auto">
+        <li class="nav-item">
+          <router-link to="/" class="nav-link">Home</router-link>
+        </li>
+        <div v-if="!currentUser" class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <router-link to="/sign-in" class="nav-link">Sign-In</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/sign-up" class="nav-link">Sign-Up</router-link>
+          </li>
+        </div>
+        <div v-if="currentUser" class="navbar-nav ml-auto">
+          <li v-if="isAdmin" class="nav-item">
+            <router-link to="/manage" class="nav-link">Manage</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/profile" class="nav-link">Profile</router-link>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" @click.prevent="logout">Sign Out</a>
+          </li>
+        </div>
+      </div>
+    </nav>
   </div>
-  <router-view />
+  <div>
+    <router-view />
+  </div>
 </template>
+
+<script>
+export default {
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    isAdmin() {
+      if (this.currentUser && this.currentUser["role"]) {
+        return this.currentUser["role"].includes("admin");
+      }
+      return false;
+    },
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
+    },
+  },
+};
+</script>
 
 <style lang="scss">
 #app {
