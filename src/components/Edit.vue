@@ -2,18 +2,26 @@
   <div class="container">
     <!-- edit form column -->
     <div class="col-lg-12 text-lg-center">
-      <h2>Editar Perfil</h2>
+      <h2>Edit Profile</h2>
       <br />
       <br />
     </div>
     <div class="col-lg-8 push-lg-4 personal-info">
-      <form role="form">
+      <form @submit="handleEdit" role="form">
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label"
-            >Nombre</label
+            >First Name</label
           >
           <div class="col-lg-9">
-            <input class="form-control" type="text" value="" />
+            <input name="first_name" class="form-control" type="text" :value="content.first_name" />
+          </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-lg-3 col-form-label form-control-label"
+            >Last Name</label
+          >
+          <div class="col-lg-9">
+            <input name="last_name" class="form-control" type="text" :value="content.last_name" />
           </div>
         </div>
         <div class="form-group row">
@@ -21,23 +29,17 @@
             >Email</label
           >
           <div class="col-lg-9">
-            <input class="form-control" type="email" value="" />
+            <input name="email" class="form-control" type="email" :value="content.email"/>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label"
-            >Password</label
+            >Role</label
           >
           <div class="col-lg-9">
-            <input class="form-control" type="password" value="11111122333" />
-          </div>
-        </div>
-        <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label"
-            >Confirm password</label
-          >
-          <div class="col-lg-9">
-            <input class="form-control" type="password" value="" />
+            <select name="role" class="form-control form-control-sm">
+              <option v-for="role in roles" :key="role.id" :value="role.id">{{role.name}}</option>
+            </select>
           </div>
         </div>
         <div class="form-group row">
@@ -54,13 +56,17 @@
 
 <script>
 import UserService from "../services/user.service";
+import RoleService from "../services/role.service";
 export default {
   name: "Edit",
   data() {
-    return { content: "" };
+    return {
+      content: "",
+      roles: "",
+    };
   },
-  mounted() {
-    UserService.getUserDetail(this.$store).then(
+  created() {
+    UserService.getUserDetail(this.$route.params.email).then(
       (response) => {
         this.content = response.data;
       },
@@ -73,11 +79,28 @@ export default {
           error.toString();
       }
     );
+    RoleService.getAllRoles().then(
+      (response) => {
+        this.roles = response.data;
+      },
+      (error) => {
+        this.roles =
+          (error.response &&
+            error.response.data &&
+            error.response.data.message) ||
+          error.message ||
+          error.toString();
+      }
+    );
   },
 
   methods: {
-    handleSubmit() {
-      console.log(this.user);
+    handleEdit(user) {
+      console.log(user);
+      UserService.editUser(this.$route.params.email, user).then(
+        (response) => {
+        this.$router.push("/manage");
+      });
     },
   },
 };

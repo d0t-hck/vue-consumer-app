@@ -14,7 +14,14 @@ class UserService {
     return axios.delete(API_URL + email, {headers: authHeader() });
   }
   editUser(email, data) {
-    return axios.put(API_URL + email, data, { headers: authHeader() });
+    return axios.put(API_URL + email,data,
+    //   {
+    //   email: data.email,
+    //   first_name: data.first_name,
+    //   last_name: data.last_name,
+    //   role: data.role,
+    // },
+    { headers: authHeader() });
   }
 }
 

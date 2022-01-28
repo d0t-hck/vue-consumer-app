@@ -40,7 +40,7 @@ export default {
     },
     isAdmin() {
       if (this.currentUser && this.currentUser["role"]) {
-        return this.currentUser["role"].includes("admin");
+        return this.currentUser["role"].includes("Admin");
       }
       return false;
     },

@@ -3,6 +3,7 @@ import Home from "../views/Home.vue";
 import SignIn from "../components/SingIn.vue";
 import SignUp from "../components/SignUp.vue";
 import Edit from "../components/Edit.vue";
+import Manage from "../components/Manage.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -19,9 +20,13 @@ const routes: Array<RouteRecordRaw> = [
     component: SignUp,
   },
   {
-    path: "/edit",
+    path: "/edit/:email",
     name: "edit",
     component: Edit,
+  },
+  {
+    path: "/manage",
+    component: Manage,
   },
 ];
 
