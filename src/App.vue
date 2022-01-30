@@ -1,5 +1,5 @@
 <template>
-  <div id="nav">
+  <div class="container-fluid" id="nav">
     <nav class="navbar navbar-expand navbar-light bg-light">
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
@@ -21,7 +21,7 @@
             <router-link to="/profile" class="nav-link">Profile</router-link>
           </li>
           <li class="nav-item">
-            <a class="nav-link" @click.prevent="logout">Sign Out</a>
+            <a class="nav-link" @click="logout">Sign Out</a>
           </li>
         </div>
       </div>
@@ -48,7 +48,7 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("auth/logout");
-      this.$router.push("/login");
+      this.$router.push("/sign-in");
     },
   },
 };
