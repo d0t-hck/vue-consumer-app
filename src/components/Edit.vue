@@ -1,52 +1,48 @@
 <template>
   <div class="container">
-    <!-- edit form column -->
     <div class="col-lg-12 text-lg-center">
       <h2>Edit Profile</h2>
       <br />
       <br />
     </div>
     <div class="col-lg-8 push-lg-4 personal-info">
-      <form @submit="handleEdit" role="form">
+      <form @submit.prevent="handleEdit">
         <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label"
-            >First Name</label
-          >
+          <label class="col-lg-3 col-form-label form-control-label">
+            First Name</label>
           <div class="col-lg-9">
-            <input name="first_name" class="form-control" type="text" :value="content.first_name" />
+            <input v-model="firstName" class="form-control" type="text" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label"
-            >Last Name</label
-          >
+          <label class="col-lg-3 col-form-label form-control-label">
+            Last Name</label>
           <div class="col-lg-9">
-            <input name="last_name" class="form-control" type="text" :value="content.last_name" />
+            <input v-model="lastName" class="form-control" type="text" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label"
-            >Email</label
-          >
+          <label class="col-lg-3 col-form-label form-control-label">
+            Email</label>
           <div class="col-lg-9">
-            <input name="email" class="form-control" type="email" :value="content.email"/>
+            <input v-model="email" class="form-control" type="email" />
           </div>
         </div>
         <div class="form-group row">
-          <label class="col-lg-3 col-form-label form-control-label"
-            >Role</label
-          >
+          <label class="col-lg-3 col-form-label form-control-label">
+            Role</label>
           <div class="col-lg-9">
-            <select name="role" class="form-control form-control-sm">
-              <option v-for="role in roles" :key="role.id" :value="role.id">{{role.name}}</option>
+            <select v-model="selectedRole" class="form-control form-control-sm">
+              <option v-for="role in roles" :key="role.id" :value="role.id">
+                {{ role.name }}
+              </option>
             </select>
           </div>
         </div>
         <div class="form-group row">
           <label class="col-lg-3 col-form-label form-control-label"></label>
           <div class="col-lg-9">
-            <input type="reset" class="btn btn-secondary" value="Cancel" />
-            <input type="button" class="btn btn-primary" value="Save Changes" />
+            <input type="submit" class="btn btn-outline-success" value="Save Changes" />
           </div>
         </div>
       </form>
@@ -61,14 +57,20 @@ export default {
   name: "Edit",
   data() {
     return {
-      content: "",
+      email: "",
+      firstName: "",
+      lastName: "",
+      selectedRole: "",
       roles: "",
     };
   },
   created() {
     UserService.getUserDetail(this.$route.params.email).then(
       (response) => {
-        this.content = response.data;
+        this.email = response.data.email;
+        this.firstName = response.data.first_name;
+        this.lastName = response.data.last_name;
+        this.selectedRole = response.data.role.id;
       },
       (error) => {
         this.content =
@@ -95,9 +97,13 @@ export default {
   },
 
   methods: {
-    handleEdit(user) {
-      console.log(user);
-      UserService.editUser(this.$route.params.email, user).then(
+    handleEdit() {
+      UserService.editUser(this.$route.params.email, {
+        email: this.email,
+        first_name: this.firstName,
+        last_name: this.lastName,
+        role: this.selectedRole,
+      }).then(
         (response) => {
         this.$router.push("/manage");
       });
