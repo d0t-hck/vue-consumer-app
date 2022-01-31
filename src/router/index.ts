@@ -4,6 +4,8 @@ import SignIn from "../components/SingIn.vue";
 import SignUp from "../components/SignUp.vue";
 import Edit from "../components/Edit.vue";
 import Manage from "../components/Manage.vue";
+import Profile from "../components/Profile.vue";
+import store from "@/store";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -28,6 +30,10 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/manage",
     component: Manage,
+  },
+  {
+    path: "/profile",
+    component: Profile,
   },
 ];
 

@@ -1,6 +1,6 @@
 <template>
   <div class="container-fluid" id="nav">
-    <nav class="navbar navbar-expand navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="navbar-nav mr-auto">
         <li class="nav-item">
           <router-link to="/" class="nav-link">Home</router-link>
@@ -17,11 +17,16 @@
           <li v-if="isAdmin" class="nav-item">
             <router-link to="/manage" class="nav-link">Manage</router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/profile" class="nav-link">Profile</router-link>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" @click="logout">Sign Out</a>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              {{currentUser.user}}
+            </a>
+            <div class="dropdown-menu dropdown-menu-dark" aria-labelledby="navbarDropdown">
+              <router-link to="/profile" class="dropdown-item">
+                Profile
+              </router-link>
+              <a class="dropdown-item" @click="logout">Sign Out</a>
+            </div>
           </li>
         </div>
       </div>
@@ -64,11 +69,11 @@ export default {
 }
 
 #nav {
-  padding: 30px;
+  padding: 0;
 
   a {
     font-weight: bold;
-    color: #2c3e50;
+    color: #8b8b8b;
 
     &.router-link-exact-active {
       color: #42b983;
