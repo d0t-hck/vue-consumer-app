@@ -73,16 +73,22 @@ export default {
         this.selectedRole = response.data.role.id;
       },
       (error) => {
-        this.content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        if (error.response.status === 401){
+          this.$router.push("/unauthorized");
+        }
+        if (error.response.status === 403){
+          this.$router.push("/forbidden");
+        }
       }
     );
     RoleService.getAllRoles().then(
       (response) => {
+        if (response.status === 401){
+          this.$router.push("/unauthorized");
+        }
+        if (response.status === 403){
+          this.$router.push("/forbidden");
+        }
         this.roles = response.data;
       },
       (error) => {
@@ -105,6 +111,12 @@ export default {
         role: this.selectedRole,
       }).then(
         (response) => {
+          if (response.status === 401){
+            this.$router.push("/unauthorized");
+          }
+          if (response.status === 403){
+            this.$router.push("/forbidden");
+          }
         this.$router.push("/manage");
       });
     },

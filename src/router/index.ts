@@ -5,7 +5,8 @@ import SignUp from "../components/SignUp.vue";
 import Edit from "../components/Edit.vue";
 import Manage from "../components/Manage.vue";
 import Profile from "../components/Profile.vue";
-import store from "@/store";
+import Unauthorized from "../components/Unauthorized.vue";
+import Forbidden from "../components/Forbidden.vue";
 
 const routes: Array<RouteRecordRaw> = [
   {
@@ -34,6 +35,14 @@ const routes: Array<RouteRecordRaw> = [
   {
     path: "/profile",
     component: Profile,
+  },
+  {
+    path: "/unauthorized",
+    component: Unauthorized,
+  },
+  {
+    path: "/forbidden",
+    component: Forbidden,
   },
 ];
 

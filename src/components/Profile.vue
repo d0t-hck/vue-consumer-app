@@ -102,12 +102,12 @@ export default {
           response.data.first_name + " " + response.data.last_name;
       },
       (error) => {
-        this.content =
-          (error.response &&
-            error.response.data &&
-            error.response.data.message) ||
-          error.message ||
-          error.toString();
+        if (error.response.status === 401){
+          this.$router.push("/unauthorized");
+        }
+        if (error.response.status === 403){
+          this.$router.push("/forbidden");
+        }
       }
     );
   },
@@ -121,7 +121,16 @@ export default {
 
       }).then((response) => {
         this.$router.push("/manage");
-      });
+      },
+      (error) => {
+        if (error.response.status === 401){
+          this.$router.push("/unauthorized");
+        }
+        if (error.response.status === 403){
+          this.$router.push("/forbidden");
+        }
+      }
+      );
     },
     getPassword() {
       if (this.password !== undefined && this.password !== null) {

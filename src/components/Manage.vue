@@ -64,20 +64,36 @@ import UserService from "../services/user.service"
          }
      },
      created() {
-         UserService.getAllUsers().then(
-             (response) => {
-                 this.users = response.data;
-             },
-         )
+        UserService.getAllUsers().then(
+            (response) => {
+                this.users = response.data;
+            },
+            (error) => {
+                if (error.response.status === 401){
+                    this.$router.push("/unauthorized");
+                }
+                if (error.response.status === 403){
+                    this.$router.push("/forbidden");
+                }
+            }    
+        );
      },
      methods: {
-         removeUser(email,index) {
-             UserService.deleteUser(email).then(
-                 (response) => {
-                     this.users.splice(index,1);
-                 },
-             );
-         },
-     }
+        removeUser(email,index) {
+            UserService.deleteUser(email).then(
+                (response) => {
+                    this.users.splice(index,1);
+                },
+                (error) => {
+                    if (error.response.status === 401){
+                        this.$router.push("/unauthorized");
+                    }
+                    if (error.response.status === 403){
+                        this.$router.push("/forbidden");
+                    }
+                }
+            );
+        },
+    }
  }
 </script>
